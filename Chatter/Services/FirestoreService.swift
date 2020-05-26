@@ -19,6 +19,14 @@ class FirestoreService {
         return db.collection("users")
     }
     
+    private var waitingChatsRef: CollectionReference {
+        return db.collection(["users", currentUser.id, "waitingChat"].joined(separator: "/"))
+    }
+    
+    private var activeChatsRef: CollectionReference {
+        return db.collection(["users", currentUser.id, "activeChat"].joined(separator: "/"))
+    }
+    
     var currentUser: MUser!
     
     func getUserData(user: User, completion: @escaping (Result<MUser, Error>) -> Void) {
@@ -56,12 +64,12 @@ class FirestoreService {
     }
     
     func createWaitingChat(message: String, receiver: MUser, completion: @escaping (Result<Void, Error>) -> Void) {
-        let reference = db.collection(["users", receiver.id, "waitingChats"].joined(separator: "/"))
+        let reference = db.collection(["users", receiver.id, "waitingChat"].joined(separator: "/"))
         let messageRef = reference.document(self.currentUser.id).collection("messages")
         
         let message = MMessage(user: currentUser, content: message)
         let chat = MChat(friendUserName: currentUser.username,
-                         friendAvatarSting: currentUser.avatarStringURL,
+                         friendAvatarString: currentUser.avatarStringURL,
                          lastMessageContent: message.content,
                          friendId: currentUser.id)
         reference.document(currentUser.id).setData(chat.representation) { (error) in
@@ -75,6 +83,97 @@ class FirestoreService {
                     return
                 }
                 completion(.success(Void()))
+            }
+        }
+    }
+    func deleteWaitingChat(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        waitingChatsRef.document(chat.friendId).delete { (error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            self.deleteMessages(chat: chat, completion: completion)
+        }
+    }
+    
+    func deleteMessages(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        let ref = waitingChatsRef.document(chat.friendId).collection("messages")
+        getWaitingChatMessages(chat: chat) { (result) in
+            switch result {
+            case .success(let messages):
+                for message in messages {
+                    guard let documentId = message.id else { return }
+                    let messageRef = ref.document(documentId)
+                    messageRef.delete { (error) in
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+                        completion(.success(Void()))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getWaitingChatMessages(chat: MChat, completion: @escaping (Result<[MMessage], Error>) -> Void) {
+        let ref = waitingChatsRef.document(chat.friendId).collection("messages")
+        var messages = [MMessage]()
+        ref.getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            for document in snapshot!.documents {
+                guard let message = MMessage(documents: document) else { return }
+                messages.append(message)
+            }
+            completion(.success(messages))
+        }
+    }
+    
+    func changeToActive(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        getWaitingChatMessages(chat: chat) { (result) in
+            switch result {
+            case .success(let messages):
+                self.deleteWaitingChat(chat: chat) { (result) in
+                    switch result {
+                    case .success():
+                        self.createActiveChat(chat: chat, messages: messages) { (result) in
+                            switch result {
+                            case .success():
+                                completion(.success(Void()))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func createActiveChat(chat: MChat, messages: [MMessage], completion: @escaping (Result<Void, Error>) -> Void) {
+        let messageRef = activeChatsRef.document(chat.friendId).collection("messages")
+        activeChatsRef.document(chat.friendId).setData(chat.representation) { (error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            for message in messages {
+                messageRef.addDocument(data: message.representation) { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    completion(.success(Void()))
+                }
             }
         }
     }

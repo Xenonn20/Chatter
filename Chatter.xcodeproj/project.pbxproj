@@ -52,6 +52,8 @@
 		74A4EDE22474750B0044B5D4 /* MChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A4EDE12474750B0044B5D4 /* MChat.swift */; };
 		74A4EDE52474841D0044B5D4 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A4EDE42474841D0044B5D4 /* UserCell.swift */; };
 		74A4EDE7247486450044B5D4 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A4EDE6247486450044B5D4 /* UIViewController + Extension.swift */; };
+		74AC8DB9247C8529001C536A /* WaitingChatsNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AC8DB8247C8529001C536A /* WaitingChatsNavigation.swift */; };
+		74AC8DBB247CAC1C001C536A /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AC8DBA247CAC1C001C536A /* ChatsViewController.swift */; };
 		74CE55A224782C1100C5F304 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE55A124782C1100C5F304 /* UserError.swift */; };
 		74CE55A4247895F600C5F304 /* UIAplication + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE55A3247895F600C5F304 /* UIAplication + Extension.swift */; };
 		74CE55A6247899A400C5F304 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CE55A5247899A400C5F304 /* StorageService.swift */; };
@@ -107,6 +109,8 @@
 		74A4EDE12474750B0044B5D4 /* MChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MChat.swift; sourceTree = "<group>"; };
 		74A4EDE42474841D0044B5D4 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		74A4EDE6247486450044B5D4 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		74AC8DB8247C8529001C536A /* WaitingChatsNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatsNavigation.swift; sourceTree = "<group>"; };
+		74AC8DBA247CAC1C001C536A /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		74CE55A124782C1100C5F304 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		74CE55A3247895F600C5F304 /* UIAplication + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication + Extension.swift"; sourceTree = "<group>"; };
 		74CE55A5247899A400C5F304 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				74656A972472513F0056D84E /* PeopleViewController.swift */,
 				746390E82475C03600F27E38 /* ProfileViewController.swift */,
 				746390EE2475D01300F27E38 /* ChatRequestViewController.swift */,
+				74AC8DBA247CAC1C001C536A /* ChatsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			children = (
 				74A4EDD724741AE20044B5D4 /* SelfConfiguringCell.swift */,
 				7432151524780532007B39BF /* AuthNavigationDelegate.swift */,
+				74AC8DB8247C8529001C536A /* WaitingChatsNavigation.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -463,6 +469,7 @@
 				74CE55A224782C1100C5F304 /* UserError.swift in Sources */,
 				74387E312471F62000D45D4C /* AddPhotoView.swift in Sources */,
 				74387E2B2471D24A00D45D4C /* OnLineTextField.swift in Sources */,
+				74AC8DBB247CAC1C001C536A /* ChatsViewController.swift in Sources */,
 				746390ED2475CB6800F27E38 /* UIView + Extension.swift in Sources */,
 				74CE55A6247899A400C5F304 /* StorageService.swift in Sources */,
 				74387E1F2471C56500D45D4C /* UILabel + Extension.swift in Sources */,
@@ -478,6 +485,7 @@
 				74387E072471B8AA00D45D4C /* SceneDelegate.swift in Sources */,
 				746390F42475DE5C00F27E38 /* AuthService.swift in Sources */,
 				74387E2D2471EA3000D45D4C /* LoginViewController.swift in Sources */,
+				74AC8DB9247C8529001C536A /* WaitingChatsNavigation.swift in Sources */,
 				74387E192471BEA800D45D4C /* UIButton + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

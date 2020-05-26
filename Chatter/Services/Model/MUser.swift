@@ -7,9 +7,18 @@
 //
 
 import UIKit
+import MessageKit
 import FirebaseFirestore
 
-struct MUser: Hashable, Decodable {
+struct MUser: Hashable, Decodable, SenderType {
+    var senderId: String {
+        return id
+    }
+    
+    var displayName: String {
+        return username
+    }
+    
     var username: String
     var email: String
     var avatarStringURL: String
